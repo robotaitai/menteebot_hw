@@ -1,0 +1,7 @@
+#SUBSYSTEM=="tty", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="000a", ATTRS{serial}=="A021A7E5", SYMLINK+="right_top_leg"
+SUBSYSTEM=="net", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{serial}=="001E003C564E510220393332", NAME="can5"
+SUBSYSTEM=="net", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{serial}=="004C003D4D34571320383230", NAME="can6"
+SUBSYSTEM=="net", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{serial}=="00360028564E510220393332", NAME="can7"
+SUBSYSTEM=="net", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{serial}=="004F00274234570220383734", NAME="can8"
+SUBSYSTEM=="net", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{serial}=="00380027564E510220393332", NAME="can9"
+

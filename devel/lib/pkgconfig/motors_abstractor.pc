@@ -1,0 +1,8 @@
+prefix=/home/taio/Documents/menteebot_hw/devel
+
+Name: motors_abstractor
+Description: Description of motors_abstractor
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

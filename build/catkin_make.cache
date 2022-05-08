@@ -1,0 +1,2 @@
+menteebot_hw:motors_abstractor:motors_watchdog:sensors_abstractor
+-DCATKIN_DEVEL_PREFIX=/home/taio/Documents/menteebot_hw/devel -DCMAKE_INSTALL_PREFIX=/home/taio/Documents/menteebot_hw/install -G Unix Makefiles

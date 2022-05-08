@@ -1,0 +1,8 @@
+prefix=/home/taio/Documents/menteebot_hw/install
+
+Name: motors_watchdog
+Description: Description of motors_watchdog
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

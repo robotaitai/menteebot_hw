@@ -1,0 +1,8 @@
+prefix=/home/taio/Documents/menteebot_hw/install
+
+Name: sensors_abstractor
+Description: Description of sensors_abstractor
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

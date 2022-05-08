@@ -1,0 +1,8 @@
+prefix=/home/taio/Documents/menteebot_hw/install
+
+Name: menteebot_hw
+Description: Description of menteebot_hw
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

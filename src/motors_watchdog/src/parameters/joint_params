@@ -1,0 +1,33 @@
+
+left_knee:
+  name: "left_knee"
+  min_position: -0.3
+  max_position: 1.1
+  init_pos: 0
+  max_velocity: 6
+  max_effort: 26
+  can_id: 0x08
+  can_socket: 'can7'
+  motor_type: 'AK80_64_V2'
+
+left_ankle_pitch:
+  name: "left_ankle_pitch"
+  min_position: -0.45
+  max_position: 0.55
+  init_pos: 0
+  max_velocity: 6
+  max_effort: 26
+  can_id: 0x06
+  can_socket: 'can7'
+  motor_type: 'AK80_64_V3'
+
+left_ankle_roll:
+  name: "left_ankle_roll"
+  min_position: -0.45
+  max_position: 0.55
+  init_pos: 0
+  max_velocity: 6
+  max_effort: 26
+  can_id: 0x00
+  can_socket: 'can7'
+  motor_type: 'AK60_6_V2'
