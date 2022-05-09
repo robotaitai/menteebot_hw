@@ -8,10 +8,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 class WatchdogHandler:
-    def __init__(self, joint_params):
+    def __init__(self, conf):
         self.joints = []
-        self.subscriber = rospy.Subscriber("/happiness/motors_watchdog", String, self.ros_actions)
-        parsed_joint_params = yaml.load(open(joint_params), Loader=yaml.FullLoader)
+        self.conf = conf
+        self.robot_name = self.conf.robot_config["robot_name"]
+        self.subscriber = rospy.Subscriber(self.robot_name + "/motors_watchdog", String, self.ros_actions)
+        parsed_joint_params = conf.joints_params
         for dof in parsed_joint_params:
             self.joints.append(motor_watchdog.MotorWatchdog(parsed_joint_params[dof]))
 

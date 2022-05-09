@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 
 import rospy, json, time
-# import .utilities.utils
-
 from utilities import utils
-from sensor_msgs.msg import JointState
 import can_motor_controller as mot_con
-from std_msgs.msg import String, Header
+from std_msgs.msg import String
 
 import logging
 logger = logging.getLogger(__name__)
@@ -65,7 +62,7 @@ class MotorsAbstractor:
             # new_msg = {'message_id': msg_id, 'name': self.joint_name, 'time_stamp': time.time(),
             #            'pos': self.motor_status.act_pos, 'vel': self.motor_status.act_vel, 'torque': self.motor_status.act_torque}
             new_msg = {'message_id': msg_id, 'name': self.joint_name, 'time_stamp': time.time(),
-                       'pos': 0.0, 'vel': 0.0, 'torque': self.motor_status.act_torque}
+                       'pos': self.motor_status.act_pos, 'vel': self.motor_status.act_vel, 'torque': self.motor_status.act_torque}
             new_msg_json = json.dumps(new_msg)
 
             self.publisher.publish(new_msg_json)

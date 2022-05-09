@@ -5,7 +5,7 @@ import can, math
 from utilities import utils
 from bitstring import BitArray
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("can_motor_controller")
 
 
 dt_sleep = 0.000# Time before motor sends a reply
@@ -133,7 +133,7 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                print("Nothing to parse")
+                logger.debug("Nothing to parse")
                 return msg
             else:
                 motorStatusData = msg[2]

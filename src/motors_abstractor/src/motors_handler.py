@@ -5,28 +5,32 @@ import motors_abstractor
 from std_msgs.msg import String
 
 
-INIT_ANGLE = 0 #TODO
-COMM_FREQ = 100  # Hz
-
+import logging
+logger = logging.getLogger("motors_handler")
 
 class MotorsHandler:
-    def __init__(self, joint_params):
+    def __init__(self, conf):
         self.joints = {}
         self.dofs = []
-        self.subscriber = rospy.Subscriber("/happiness/motors_handler", String, self.ros_actions)
-        parsed_joint_params = yaml.load(open(joint_params), Loader=yaml.FullLoader)
+        self.conf = conf
+        self.robot_name = self.conf.robot_config["robot_name"]
+        self.frequency = self.conf.communication["frequency"]
+        self.sleep_between_motors = self.conf.communication["sleep_time_between_motors"]
+        self.subscriber = rospy.Subscriber(self.robot_name +"/motors_handler", String, self.ros_actions)
+        parsed_joint_params = conf.joints_params
         for dof in parsed_joint_params:
             self.dofs.append(dof)
         for dof in self.dofs:
-            self.joints[dof] = motors_abstractor.MotorsAbstractor(parsed_joint_params[dof], INIT_ANGLE)
+            self.joints[dof] = motors_abstractor.MotorsAbstractor(parsed_joint_params[dof], parsed_joint_params[dof].init_pos)
 
     def init_motors(self):
-        print("Init motors Command Received")
+        logger.info("Init motors Command Received")
         for dof in self.dofs:
             # self.joints[dof].motor_set_zero()
             # time.sleep(0.002)
             self.joints[dof].motor_init()
-        rospy.Timer(rospy.Duration(1.0/COMM_FREQ), self.publish_all_motors)
+        rospy.Timer(rospy.Duration(1.0/self.frequency), self.publish_all_motors)
+
 
     def send_zeros(self):
         for dof in self.dofs:
@@ -38,7 +42,7 @@ class MotorsHandler:
     #         self.joints[dof].motor_set_zero()
 
     def disable_motors(self):
-        print("Stop motors Command Received")
+        logger.info("Stop motors Command Received")
         for dof in self.dofs:
             self.joints[dof].motor_stop()
 
@@ -48,10 +52,10 @@ class MotorsHandler:
         #     joint.send_position_and_update_status(joint.des_angle)  # TODO Demo
         for dof in self.dofs:
             self.joints[dof].send_position_and_update_status(self.joints[dof].motor_desire_command.des_pos) #TODO
-            rospy.sleep(0.000)
+            rospy.sleep(self.sleep_between_motors)
 
     def ros_actions(self, msg):
-        print(msg)
+        logger.info(f"ROS actiosn {msg}")
         if msg == "init":
             self.init_motors()
         # elif msg == "zero":
