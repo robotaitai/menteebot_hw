@@ -17,9 +17,10 @@ class CanMotorController():
     can_socket_declared = False
     can_sockets = {}
 
-    def __init__(self, can_params, motor_params):
+    def __init__(self, can_params, motor_params, joint_name):
         self.motorParams = motor_params
         self.can_id = can_params.can_id
+        self.joint_name = joint_name
         self.can_socket = can_params.can_socket
         # create a raw socket and bind it to the given CAN interface
         # if not CanMotorController.can_sockets list:
@@ -69,12 +70,12 @@ class CanMotorController():
         try:
             message = CanMotorController.can_sockets[self.can_socket].recv(timeout=timeout)  # Wait until a message is received.
             if message == None:
-                logger.warning("\r\n No message received, pass..")
+                logger.debug("No message received, pass..")
                 return message
             logger.debug(message)
             return [message.arbitration_id, message.dlc, message.data]
         except Exception as e:
-            logger.error("Unable to Receive CAN Franme.")
+            logger.error(f"Unable to Receive CAN Franme from {self.joint_name}.")
             logger.error("Error: ", e)
 
     def enable_motor(self):
@@ -86,13 +87,13 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                logger.warning("Nothing to parse")
+                logger.warning(f"Got Non from Motor Init from {self.joint_name }")
                 return msg
             else:
                 motorStatusData = msg[2]
                 rawMotorData = self.decode_motor_status(motorStatusData)
                 motor_id, pos, vel, curr = self.convert_raw_to_physical_rad(rawMotorData[0], rawMotorData[1], rawMotorData[2], rawMotorData[3])
-                logger.info("Motor {} Enabled.".format(int(motor_id)))
+                logger.info(f"Motor {self.joint_name } Enabled.")
                 return motor_id, pos, vel, curr
         except Exception as e:
             logger.error('\r\n `Error Enabling Motor.')
@@ -108,7 +109,7 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                logger.warning("Nothing to parse")
+                logger.warning(f"Nothing to parsefrom {self.joint_name }")
                 return msg
             else:
                 motorStatusData = msg[2]
@@ -133,7 +134,7 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                logger.debug("Nothing to parse")
+                logger.debug(f"Nothing to parse from zero from {self.joint_name}")
                 return msg
             else:
                 motorStatusData = msg[2]
@@ -269,7 +270,7 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                logger.warning("Nothing to parse")
+                logger.warning(f"Nothing to parse for {self.joint_name}")
             return msg
         except Exception as e:
             logger.error('Error Sending Raw Commands!')

@@ -70,9 +70,8 @@ class MotorStatus:
     act_pos: float
     act_vel: float
     act_torque: float
-
     des_pos: float
-    mot_id: hex
+    mot_id: int
 
     def update_status(self, new_pos, new_vel, new_torque):
         self.act_pos = new_pos
@@ -83,6 +82,7 @@ class MotorStatus:
     def update_from_motor(self,status):
         correct_id =0 #TODO check correct Id
         correct_id, self.act_pos, self.act_vel ,self.act_torque = status
+
 
 
 @dataclass
