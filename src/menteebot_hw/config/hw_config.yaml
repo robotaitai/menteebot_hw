@@ -3,15 +3,49 @@ setup_flags:
 
 debug:
   rqt_pos: True
+  simulate_motors: False
 
 communication:
-  frequency: 20 #Hz
-  sleep_time_between_motors: 0.0
+  frequency: 100 #Hz
+  sleep_time_between_motors: 0.005
 
 robot_config:
   robot_name: '/simha'
 
 joints_params:
+  right_knee:
+    name: "right_knee"
+    min_position: -0.87
+    max_position: 0.87
+    init_pos: 0
+    max_velocity: 6
+    max_effort: 26
+    can_id: 18
+    can_socket: 'can4'
+    motor_type: 'AK80_64_V3'
+
+  right_ankle_pitch:
+    name: "right_ankle_pitch"
+    min_position: -0.61
+    max_position: 0.61
+    init_pos: 0
+    max_velocity: 6
+    max_effort: 26
+    can_id: 16
+    can_socket: 'can4'
+    motor_type: 'AK80_64_V2'
+
+  right_ankle_roll:
+    name: "right_ankle_roll"
+    min_position: -0.35
+    max_position: 0.35
+    init_pos: 0
+    max_velocity: 6
+    max_effort: 26
+    can_id: 20
+    can_socket: 'can4'
+    motor_type: 'AK60_6_V3'
+
   left_hip_yaw:
     name: "left_hip_yaw"
     min_position: -0.21
@@ -111,39 +145,8 @@ joints_params:
     can_socket: 'can8'
     motor_type: 'AK80_64_V3'
 
-  right_knee:
-    name: "right_knee"
-    min_position: -0.87
-    max_position: 0.87
-    init_pos: 0
-    max_velocity: 6
-    max_effort: 26
-    can_id: 18
-    can_socket: 'can7'
-    motor_type: 'AK80_64_V3'
 
-  right_ankle_pitch:
-    name: "right_ankle_pitch"
-    min_position: -0.61
-    max_position: 0.61
-    init_pos: 0
-    max_velocity: 6
-    max_effort: 26
-    can_id: 16
-    can_socket: 'can7'
-    motor_type: 'AK80_64_V3'
-
-  right_ankle_roll:
-    name: "right_ankle_roll"
-    min_position: -0.35
-    max_position: 0.35
-    init_pos: 0
-    max_velocity: 6
-    max_effort: 26
-    can_id: 20
-    can_socket: 'can7'
-    motor_type: 'AK60_6_V2'
-
+#
 #  torso_tilt:
 #    name: "torso_tilt"
 #    min_position: -0.0
@@ -151,7 +154,7 @@ joints_params:
 #    init_pos: 0
 #    max_velocity: 6
 #    max_effort: 26
-#    can_id: 1
+#    can_id: 22
 #    can_socket: 'can9'
 #    motor_type: 'AK80_64_V2'
 #
@@ -162,8 +165,8 @@ joints_params:
 #    init_pos: 0
 #    max_velocity: 6
 #    max_effort: 26
-#    can_id: 1
+#    can_id: 21
 #    can_socket: 'can9'
 #    motor_type: 'AK80_64_V2'
-
-
+#
+#

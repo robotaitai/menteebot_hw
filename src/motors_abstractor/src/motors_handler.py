@@ -15,17 +15,19 @@ class MotorsHandler:
         self.conf = conf
         self.robot_name = self.conf.robot_config["robot_name"]
         self.frequency = self.conf.communication["frequency"]
+        self.rqt_debug = self.conf.debug["rqt_pos"]
+        self.simulation = self.conf.debug["simulate_motors"]
+
         self.sleep_between_motors = self.conf.communication["sleep_time_between_motors"]
         self.subscriber = rospy.Subscriber(self.robot_name +"/motors_handler", String, self.ros_actions)
-        self.rqt_debug = self.conf.debug["rqt_pos"]
-        self.statusHandler = status_handler.StatusHandler()
+        self.statusHandler = status_handler.StatusHandler(self.frequency)
 
         parsed_joint_params = conf.joints_params
         for dof in parsed_joint_params:
             self.dofs.append(dof)
 
         for dof in self.dofs:
-            self.joints[dof] = motors_abstractor.MotorsAbstractor(parsed_joint_params[dof], parsed_joint_params[dof].init_pos)
+            self.joints[dof] = motors_abstractor.MotorsAbstractor(parsed_joint_params[dof], parsed_joint_params[dof].init_pos, self.simulation)
             self.statusHandler.add_joint(self.joints[dof].motor_controller.can_id)
         #Debug
         if self.rqt_debug:

@@ -13,13 +13,13 @@ legitimate_motors = [
     "AK80_6_V1p1",
     "AK80_6_V2",
     "AK60_6_V2",
+    "AK60_6_V3",
     "AK80_9_V1p1",
     "AK80_9_V2",
     "AK10_9_V2",
     'AK80_64_V2',
     'AK80_64_V3',
-    'AK70_10'
-]
+    'AK70_10']
 
 # Constants for conversion
 # Working parameters for AK80-6 V1.0 firmware
@@ -80,6 +80,20 @@ AK60_6_V2_PARAMS = {
     "T_MIN": -12.0,
     "T_MAX": 12.0,
     "AXIS_DIRECTION": 1
+}
+
+AK60_6_V3_PARAMS = {
+    "P_MIN": -12.5,
+    "P_MAX": 12.5,
+    "V_MIN": -38.2,
+    "V_MAX": 38.2,
+    "KP_MIN": 0.0,
+    "KP_MAX": 500.0,
+    "KD_MIN": 0.0,
+    "KD_MAX": 5.0,
+    "T_MIN": -12.0,
+    "T_MAX": 12.0,
+    "AXIS_DIRECTION": -1
 }
 # Working parameters for AK80-9 V1.1 firmware
 AK80_9_V1p1_PARAMS = {
@@ -172,6 +186,6 @@ AK70_10_PARAMS = {
     "KD_MAX": 5.0,
     "T_MIN": -18.0,
     "T_MAX": 18.0,
-    "AXIS_DIRECTION": 1,
+    "AXIS_DIRECTION": -1,
     "RATIO": 10
 }

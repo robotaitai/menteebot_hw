@@ -17,32 +17,34 @@ class CanMotorController():
     can_socket_declared = False
     can_sockets = {}
 
-    def __init__(self, can_params, motor_params, joint_name):
+    def __init__(self, can_params, motor_params, joint_name, simulation=False):
         self.motorParams = motor_params
         self.can_id = can_params.can_id
         self.joint_name = joint_name
         self.can_socket = can_params.can_socket
-        # create a raw socket and bind it to the given CAN interface
-        # if not CanMotorController.can_sockets list:
-        if self.can_socket not in CanMotorController.can_sockets:
-            try:
-                CanMotorController.can_sockets[self.can_socket] = can.interface.Bus(channel=self.can_socket, interface='socketcan') #TODO
-                logger.info("Bound to: ", self.can_socket)
-            except Exception as e:
-                logger.warning("Unable to Connect to Socket Specified: ", self.can_socket)
-                logger.warning("Error:", e)
-        elif CanMotorController.can_socket_declared:
-            pass
-        # Initialize the command BitArrays for performance optimization
-        self._p_des_BitArray = BitArray(uint=utils.float_to_uint(0, self.motorParams['P_MIN'],
-                                                                 self.motorParams['P_MAX'], 16), length=16)
-        self._v_des_BitArray = BitArray(uint=utils.float_to_uint(0, self.motorParams['V_MIN'],
-                                                                 self.motorParams['V_MAX'], 12), length=12)
-        self._kp_BitArray = BitArray(uint=0, length=12)
-        self._kd_BitArray = BitArray(uint=0, length=12)
-        self._tau_BitArray = BitArray(uint=0, length=12)
-        self._cmd_bytes = BitArray(uint=0, length=64)
-        self._recv_bytes = BitArray(uint=0, length=48)
+        if not simulation:
+
+            # create a raw socket and bind it to the given CAN interface
+            # if not CanMotorController.can_sockets list:
+            if self.can_socket not in CanMotorController.can_sockets:
+                try:
+                    CanMotorController.can_sockets[self.can_socket] = can.interface.Bus(channel=self.can_socket, interface='socketcan') #TODO
+                    logger.info("Bound to: ", self.can_socket)
+                except Exception as e:
+                    logger.warning("Unable to Connect to Socket Specified: ", self.can_socket)
+                    logger.warning("Error:", e)
+            elif CanMotorController.can_socket_declared:
+                pass
+            # Initialize the command BitArrays for performance optimization
+            self._p_des_BitArray = BitArray(uint=utils.float_to_uint(0, self.motorParams['P_MIN'],
+                                                                     self.motorParams['P_MAX'], 16), length=16)
+            self._v_des_BitArray = BitArray(uint=utils.float_to_uint(0, self.motorParams['V_MIN'],
+                                                                     self.motorParams['V_MAX'], 12), length=12)
+            self._kp_BitArray = BitArray(uint=0, length=12)
+            self._kd_BitArray = BitArray(uint=0, length=12)
+            self._tau_BitArray = BitArray(uint=0, length=12)
+            self._cmd_bytes = BitArray(uint=0, length=64)
+            self._recv_bytes = BitArray(uint=0, length=48)
 
     def close_bus(self):
         CanMotorController.can_sockets[self.can_socket].shutdown()
@@ -70,7 +72,7 @@ class CanMotorController():
         try:
             message = CanMotorController.can_sockets[self.can_socket].recv(timeout=timeout)  # Wait until a message is received.
             if message == None:
-                logger.debug("No message received, pass..")
+                logger.info("No message received, pass..")
                 return message
             logger.debug(message)
             return [message.arbitration_id, message.dlc, message.data]
@@ -87,7 +89,7 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                logger.warning(f"Got Non from Motor Init from {self.joint_name }")
+                logger.info(f"Got None from Motor Init from {self.can_id }")
                 return msg
             else:
                 motorStatusData = msg[2]
@@ -109,7 +111,7 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                logger.warning(f"Nothing to parsefrom {self.joint_name }")
+                logger.warning(f"Nothing to parse from {self.joint_name }")
                 return msg
             else:
                 motorStatusData = msg[2]
@@ -270,7 +272,7 @@ class CanMotorController():
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
             if msg == None:
-                logger.warning(f"Nothing to parse for {self.joint_name}")
+                logger.info(f"Nothing to parse for {self.joint_name}") #TODO maybe we want a warning here
             return msg
         except Exception as e:
             logger.error('Error Sending Raw Commands!')

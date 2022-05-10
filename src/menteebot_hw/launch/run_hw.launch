@@ -1,13 +1,15 @@
 <launch>
-<!--      <node pkg="motors_watchdog" type="main.py" name="motors_watchdog" output="screen" /> -->
+     <node pkg="motors_watchdog" type="main.py" name="motors_watchdog" output="screen" />
      <node pkg="sensors_abstractor" type="main.py" name="sensors_abstractor" output="screen"/>
      <node pkg="motors_abstractor" name="motors_abstractor" type="main.py" output="screen"/>
      <node pkg="um7" name="um7" type="um7_driver" output="screen">
           <param name="imu" value="/dev/ttyUSB0"/>
           <param name="baud" value="115200"/>
           <param name="update_rate" value="200"/>
-          <param name="mag_updates" value="false"/>
+          <param name="mag_updates" value="true"/>
           <param name="quat_mode" value="true"/>
           <param name="zero_gyros" value="true"/>
+          <param name="tf_ned_to_enu" value="false"/>
+          <param name="orientation_in_robot_frame" value="true"/>
     </node>
 </launch>

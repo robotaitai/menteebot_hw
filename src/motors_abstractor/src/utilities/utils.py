@@ -113,6 +113,8 @@ class MotorParams:
             self.motor_params = motors_params.AK80_9_V2_PARAMS
         elif motor_type == 'AK60_6_V2':
             self.motor_params = motors_params.AK60_6_V2_PARAMS
+        elif motor_type == 'AK60_6_V3':
+            self.motor_params = motors_params.AK60_6_V3_PARAMS
         elif motor_type == 'AK80_64_V2':
             self.motor_params = motors_params.AK80_64_V2_PARAMS
         elif motor_type == 'AK80_64_V3':

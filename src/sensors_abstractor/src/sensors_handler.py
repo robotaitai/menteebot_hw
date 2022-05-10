@@ -25,21 +25,20 @@ class ImuData:
         # print(new_imu_read)
 
         if LAB_GRAVITY_ACCEL:
-            self.lin_a = self.lin_acc_corr(self.lin_a, self.quat)
+            self.lin_a = self.lin_acc_curr(self.lin_a, self.quat)
 
     def json_status(self):
         res_dict = {'t_stamp': self.time_stamp, 'ang_v': self.ang_v, 'lin_a': self.lin_a, 'quat': self.quat}
         return json.dumps(res_dict)
 
-    def lin_acc_corr(self, lin_acc, quat):
+    def lin_acc_curr(self, lin_acc, quat):
         lin_acc = np.array(lin_acc)
-        # quat = np.array(quat)
-        # rot_mat = Rotation.from_quat(quat).as_matrix()
-        # inv_rot_mat = np.linalg.inv(rot_mat)
-        # # acc_lab = np.array(lin_acc) + inv_rot_mat.dot(GRAVITY)
-        # acc_lab = rot_mat.dot(lin_acc) + GRAVITY
+        # acc_lab = lin_acc - GRAVITY
+        quat = np.array(quat)
+        rot_mat = Rotation.from_quat(quat).as_matrix()
+        inv_rot_mat = np.linalg.inv(rot_mat)
+        acc_lab = inv_rot_mat.dot(lin_acc) - GRAVITY
 
-        acc_lab = lin_acc - GRAVITY
         return acc_lab.tolist()
 
 
