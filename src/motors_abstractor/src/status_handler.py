@@ -42,6 +42,7 @@ class StatusHandler:
         # print(f"{can_id} - delta pos = {delta_pos}" )
         # new_vel = (new_status[1] - self.statuses_dict[can_id].act_pos)*self.freq
         # print(f"{can_id} vel from mot {new_status[2]} calculated vel: {new_vel}")
-        self.statuses_dict[can_id].update_from_motor(new_status)
+        if can_id in self.statuses_dict.keys():
+            self.statuses_dict[can_id].update_from_motor(new_status)
 
         #TODO add dead motor recognition

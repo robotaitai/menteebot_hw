@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import time, logging,yaml
-import motors_handler
+import commands_handler
 import rospy
 from hydra import compose, initialize
 from omegaconf import OmegaConf
@@ -14,7 +14,7 @@ logger = logging.getLogger("main_ma")
 if __name__ == '__main__':
     logger.addHandler(logging.StreamHandler())
     logger.info("Starting motors abstractor node")
-    rospy.init_node('motors_abstractor', anonymous=True)
+    rospy.init_node('commander', anonymous=True)
 
     default = "../../menteebot_hw/config/hw_config.yaml"
     # Configuring hydra
@@ -26,13 +26,11 @@ if __name__ == '__main__':
         # Struct to normal :)
         yaml_conf = OmegaConf.to_container(yaml_conf)
         yaml_conf = OmegaConf.create(yaml_conf)
-
-    motors_handler = motors_handler.MotorsHandler(yaml_conf)
-    time.sleep(0.1)
-    motors_handler.init_motors()
+    commander = commands_handler.CommandsHandler(yaml_conf)
     # rate = rospy.Rate(COMM_FREQ)
     try:
-        motors_handler.run()
+        commander\
+            .run()
     except rospy.ROSInterruptException:
         logger.error("EXCEPTION EXCEPTION")
         pass

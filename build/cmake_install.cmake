@@ -132,6 +132,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/taio/Documents/menteebot_hw/build/gtest/cmake_install.cmake")
   include("/home/taio/Documents/menteebot_hw/build/menteebot_hw/cmake_install.cmake")
+  include("/home/taio/Documents/menteebot_hw/build/commander/cmake_install.cmake")
   include("/home/taio/Documents/menteebot_hw/build/motors_abstractor/cmake_install.cmake")
   include("/home/taio/Documents/menteebot_hw/build/motors_watchdog/cmake_install.cmake")
   include("/home/taio/Documents/menteebot_hw/build/sensors_abstractor/cmake_install.cmake")

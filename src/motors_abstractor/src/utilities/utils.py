@@ -121,6 +121,8 @@ class MotorParams:
             self.motor_params = motors_params.AK80_64_V3_PARAMS
         elif motor_type == 'AK70_10':
             self.motor_params = motors_params.AK70_10_PARAMS
+        elif motor_type == 'AK70_10_1':
+            self.motor_params = motors_params.AK70_10_1_PARAMS
         logger.info(f"{motor_type} motor was configured")
 
     def get_motor_params(self):

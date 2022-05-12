@@ -55,6 +55,7 @@ CMAKE_BINARY_DIR = /home/taio/Documents/menteebot_hw/build
 # The main recursive "all" target.
 all: gtest/all
 all: menteebot_hw/all
+all: commander/all
 all: motors_abstractor/all
 all: motors_watchdog/all
 all: sensors_abstractor/all
@@ -64,6 +65,7 @@ all: sensors_abstractor/all
 # The main recursive "preinstall" target.
 preinstall: gtest/preinstall
 preinstall: menteebot_hw/preinstall
+preinstall: commander/preinstall
 preinstall: motors_abstractor/preinstall
 preinstall: motors_watchdog/preinstall
 preinstall: sensors_abstractor/preinstall
@@ -78,11 +80,30 @@ clean: CMakeFiles/tests.dir/clean
 clean: CMakeFiles/download_extra_data.dir/clean
 clean: gtest/clean
 clean: menteebot_hw/clean
+clean: commander/clean
 clean: motors_abstractor/clean
 clean: motors_watchdog/clean
 clean: sensors_abstractor/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory commander
+
+# Recursive "all" directory target.
+commander/all:
+
+.PHONY : commander/all
+
+# Recursive "preinstall" directory target.
+commander/preinstall:
+
+.PHONY : commander/preinstall
+
+# Recursive "clean" directory target.
+commander/clean:
+
+.PHONY : commander/clean
 
 #=============================================================================
 # Directory level rules for directory gtest

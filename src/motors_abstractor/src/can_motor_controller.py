@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger("can_motor_controller")
 
 
-dt_sleep = 0.000# Time before motor sends a reply
+dt_sleep = 0.0001# Time before motor sends a reply
 msg_time_out = 0.0
 
 class CanMotorController():
@@ -28,8 +28,9 @@ class CanMotorController():
             # if not CanMotorController.can_sockets list:
             if self.can_socket not in CanMotorController.can_sockets:
                 try:
-                    CanMotorController.can_sockets[self.can_socket] = can.interface.Bus(channel=self.can_socket, interface='socketcan') #TODO
-                    logger.info("Bound to: ", self.can_socket)
+                    # CanMotorController.can_sockets[self.can_socket] = can.interface.Bus(channel=self.can_socket, bustype='slcan',  interface='socketcan',interface='socketcan', bitrate='1000000') #TODO
+                    CanMotorController.can_sockets[self.can_socket] = can.interface.Bus(channel=self.can_socket,  interface='socketcan', bitrate='1000000') #TODO
+                    logger.info("Bound to: " + self.can_socket)
                 except Exception as e:
                     logger.warning("Unable to Connect to Socket Specified: ", self.can_socket)
                     logger.warning("Error:", e)
@@ -60,6 +61,7 @@ class CanMotorController():
             # CanMotorController.motor_socket.send(can_msg)
             # CanMotorController.motor_socket.send(msg,timeout=msg_time_out)
             CanMotorController.can_sockets[self.can_socket].send(msg,timeout=msg_time_out)
+
             logger.debug(msg)
         except Exception as e:
             logger.info("Unable to Send CAN Frame.")
@@ -75,6 +77,8 @@ class CanMotorController():
                 logger.info("No message received, pass..")
                 return message
             logger.debug(message)
+            # if self.can_id == 0x0a:
+            # print(message)
             return [message.arbitration_id, message.dlc, message.data]
         except Exception as e:
             logger.error(f"Unable to Receive CAN Franme from {self.joint_name}.")
@@ -135,6 +139,7 @@ class CanMotorController():
             self._send_can_frame(b'\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFE')
             utils.waitOhneSleep(dt_sleep)
             msg = self._recv_can_frame()
+            print(f"did zero pos to {self.joint_name}")
             if msg == None:
                 logger.debug(f"Nothing to parse from zero from {self.joint_name}")
                 return msg

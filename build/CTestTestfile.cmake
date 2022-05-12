@@ -6,6 +6,7 @@
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
 subdirs("menteebot_hw")
+subdirs("commander")
 subdirs("motors_abstractor")
 subdirs("motors_watchdog")
 subdirs("sensors_abstractor")

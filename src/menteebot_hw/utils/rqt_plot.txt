@@ -1,0 +1,1 @@
+rqt_plot /rqt_pos_pub/left_ankle_pitch /rqt_pos_pub/left_ankle_roll /rqt_pos_pub/left_hip_pitch /rqt_pos_pub/left_hip_roll /rqt_pos_pub/left_hip_yaw /rqt_pos_pub/left_knee /rqt_pos_pub/right_ankle_pitch /rqt_pos_pub/right_ankle_roll /rqt_pos_pub/right_hip_pitch /rqt_pos_pub/right_hip_roll /rqt_pos_pub/right_hip_yaw

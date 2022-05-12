@@ -1,7 +1,9 @@
 <launch>
      <node pkg="motors_watchdog" type="main.py" name="motors_watchdog" output="screen" />
+     <node pkg='commander' type='main.py' name="commander" output='screen'/>
      <node pkg="sensors_abstractor" type="main.py" name="sensors_abstractor" output="screen"/>
      <node pkg="motors_abstractor" name="motors_abstractor" type="main.py" output="screen"/>
+<!--      <node pkg="joystick" name="joy" type="joy_node" output="screen"/> -->
      <node pkg="um7" name="um7" type="um7_driver" output="screen">
           <param name="imu" value="/dev/ttyUSB0"/>
           <param name="baud" value="115200"/>

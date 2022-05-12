@@ -3,36 +3,29 @@ import argparse
 import time, logging, yaml
 import rospy
 import sensors_handler
-# from hydra import compose, initialize
-# from omegaconf import OmegaConf
+from hydra import compose, initialize
+from omegaconf import OmegaConf
 
 logger = logging.getLogger(__name__)
 
 if __name__ == '__main__':
-
-    # default = "../config/wd_config.yaml"
-    # # Configuring hydra
-    # yaml_path_split = default.split("/")
-    #
     logger.addHandler(logging.StreamHandler())
     logger.info("Starting sensors abstractor node")
-    rospy.init_node('sensors_abstractor', anonymous=True)
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--yaml", help="Configuration file")
-    #
-    # args, unknown = parser.parse_known_args()
-    #
-    # # Configuring hydra
-    # yaml_path_split = args.yaml.split("/")
-    # config_path = "/".join(yaml_path_split[:-1])
-    # config_name = yaml_path_split[-1][:-5]
-    # with initialize(config_path=config_path, job_name="mentor_app"):
-    #     yaml_conf = compose(config_name=config_name, overrides=["hydra.run.dir=/tmp"])
-    #     # Struct to normal :)
-    #     yaml_conf = OmegaConf.to_container(yaml_conf)
-    #     yaml_conf = OmegaConf.create(yaml_conf)
+    rospy.init_node('sensoss_abstractor', anonymous=True)
+
+    default = "../../menteebot_hw/config/hw_config.yaml"
+    # Configuring hydra
+    yaml_path_split = default.split("/")
+    config_path = "/".join(yaml_path_split[:-1])
+    config_name = yaml_path_split[-1][:-5]
+    with initialize(config_path=config_path, job_name="mentor_app"):
+        yaml_conf = compose(config_name=config_name, overrides=["hydra.run.dir=/tmp"])
+        # Struct to normal :)
+        yaml_conf = OmegaConf.to_container(yaml_conf)
+        yaml_conf = OmegaConf.create(yaml_conf)
+
     # cfg = yaml_conf
-    sensors_handler = sensors_handler.SensorsHandler()
+    sensors_handler = sensors_handler.SensorsHandler(yaml_conf)
 
     time.sleep(0.1)
     # sensors_handler.init_motors()

@@ -20,7 +20,7 @@ class MotorsAbstractor:
         self.joint_name = parsed_joint_params['name']
         # self.motor_name = parsed_joint_params['name']
         self.can_params = utils.CanParams(parsed_joint_params['can_id'],parsed_joint_params['can_socket'])
-        self.motor_desire_command = utils.MotorCommand(new_angle,new_angle,new_angle,new_angle,new_angle) #TODO
+        self.motor_desire_command = utils.MotorCommand(new_angle,0,0,0,0)
         '''
         Motos Config
         '''
@@ -52,6 +52,8 @@ class MotorsAbstractor:
         and update the received status
         '''
         if self.is_demo:
+            status_handler.update_joint(self.can_params.can_id,[self.can_params.can_id,self.motor_desire_command.des_pos, self.motor_desire_command.des_vel,
+                                                              self.motor_desire_command.des_torque])
             return 1
 
         new_status = self.motor_controller.send_rad_command(self.motor_desire_command.des_pos, self.motor_desire_command.des_vel,
@@ -102,6 +104,16 @@ class MotorsAbstractor:
             # self.motor_status.update_from_motor(status)
             return 1
 
+    def motor_set_zero(self):
+        if self.is_demo:
+            return 0
+        status = self.motor_controller.set_zero_position()
+        if status == None:
+            logger.warning(f"Zero Position Failed for: {self.joint_name}")
+            return 0
+        else:
+            # self.motor_status.update_from_motor(status)
+            return 1
 
     def motor_stop(self):
         if self.is_demo:

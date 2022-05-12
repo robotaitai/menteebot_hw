@@ -8,7 +8,9 @@ import numpy as np
 
 NO_IMU = False
 LAB_GRAVITY_ACCEL = True
+QUAT_SHIFT = True
 GRAVITY = np.array([0, 0, -9.81])
+ACC_OFFSET = np.array([0.0, 0.341, -0.151])
 
 @dataclass
 class ImuData:
@@ -23,7 +25,9 @@ class ImuData:
         self.lin_a = [new_imu_read.linear_acceleration.x, new_imu_read.linear_acceleration.y, new_imu_read.linear_acceleration.z]
         self.quat = [new_imu_read.orientation.x, new_imu_read.orientation.y, new_imu_read.orientation.z, new_imu_read.orientation.w]
         # print(new_imu_read)
-
+        if QUAT_SHIFT:
+            self.quat = [-new_imu_read.orientation.x, -new_imu_read.orientation.y, -new_imu_read.orientation.z,
+                         -new_imu_read.orientation.w]
         if LAB_GRAVITY_ACCEL:
             self.lin_a = self.lin_acc_curr(self.lin_a, self.quat)
 
@@ -37,7 +41,7 @@ class ImuData:
         quat = np.array(quat)
         rot_mat = Rotation.from_quat(quat).as_matrix()
         inv_rot_mat = np.linalg.inv(rot_mat)
-        acc_lab = inv_rot_mat.dot(lin_acc) - GRAVITY
+        acc_lab = inv_rot_mat.dot(lin_acc) + GRAVITY - ACC_OFFSET
 
         return acc_lab.tolist()
 
@@ -49,10 +53,19 @@ def convert_accel(int_val):
 imu_recording = {}
 
 class SensorsHandler:
-    def __init__(self):
+    def __init__(self, conf):
+        self.conf = conf
+        self.rqt_debug = self.conf.debug["rqt_imu"]
+        '''
+        ROS Config
+        '''
         self.subscriber = rospy.Subscriber("/imu/data", Imu, self.update_imu, queue_size=10)
         self.publisher = rospy.Publisher("/simha/pelvis", String, queue_size=10)
         self.current_status = ImuData(0.0, [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0])
+        # if self.rqt_debug:
+        #     rqt_imu_data =
+        #     s
+
 
     def update_imu(self, msg):
         #TODO gravity rotation matrix
@@ -63,6 +76,11 @@ class SensorsHandler:
 
         # print(self.current_status.json_status)
         self.publisher.publish(self.current_status.json_status())
+        # if self.rqt_debug:
+        #     self.joints[dof].rqt_pos_pub(self.statusHandler)
+
+    def create_rqt_pub(self):
+        self.rqt_pub = rospy.Publisher("/rqt_pos_pub/"+self.joint_name, Float64, queue_size=10)
 
     def run(self):
         rospy.spin()

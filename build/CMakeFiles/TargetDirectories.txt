@@ -43,6 +43,13 @@
 /home/taio/Documents/menteebot_hw/build/menteebot_hw/CMakeFiles/edit_cache.dir
 /home/taio/Documents/menteebot_hw/build/menteebot_hw/CMakeFiles/test.dir
 /home/taio/Documents/menteebot_hw/build/menteebot_hw/CMakeFiles/_catkin_empty_exported_target.dir
+/home/taio/Documents/menteebot_hw/build/commander/CMakeFiles/install/strip.dir
+/home/taio/Documents/menteebot_hw/build/commander/CMakeFiles/install/local.dir
+/home/taio/Documents/menteebot_hw/build/commander/CMakeFiles/install.dir
+/home/taio/Documents/menteebot_hw/build/commander/CMakeFiles/list_install_components.dir
+/home/taio/Documents/menteebot_hw/build/commander/CMakeFiles/rebuild_cache.dir
+/home/taio/Documents/menteebot_hw/build/commander/CMakeFiles/edit_cache.dir
+/home/taio/Documents/menteebot_hw/build/commander/CMakeFiles/test.dir
 /home/taio/Documents/menteebot_hw/build/motors_abstractor/CMakeFiles/install/strip.dir
 /home/taio/Documents/menteebot_hw/build/motors_abstractor/CMakeFiles/install/local.dir
 /home/taio/Documents/menteebot_hw/build/motors_abstractor/CMakeFiles/install.dir

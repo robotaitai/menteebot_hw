@@ -38,8 +38,6 @@ class MotorsHandler:
     def init_motors(self):
         logger.info("Init motors Command Received")
         for dof in self.dofs:
-            # self.joints[dof].motor_set_zero()
-            # time.sleep(0.002)
             self.joints[dof].motor_init()
         rospy.Timer(rospy.Duration(1.0/self.frequency), self.update_all_motors)
 
@@ -52,6 +50,10 @@ class MotorsHandler:
     #     print("Zero motors Command Received")
     #     for dof in self.dofs:
     #         self.joints[dof].motor_set_zero()
+
+    def set_zero_pos_motor(self, dof):
+        print(f"Zero motors Command Received for {dof}")
+        self.joints[dof].motor_set_zero()
 
     def disable_motors(self):
         logger.info("Stop motors Command Received")
@@ -74,12 +76,15 @@ class MotorsHandler:
 
     def ros_actions(self, msg):
         logger.info(f"ROS actiosn {msg}")
-        if msg == "init":
+        case = msg.data
+        if case == "start":
             self.init_motors()
-        # elif msg == "zero":
+        # elif case == "zero":
         #     self.set_zero_pos_motors()
-        elif msg == "stop":
+        elif case == "stop":
             self.disable_motors()
+        elif case in self.dofs:
+            self.set_zero_pos_motor(case)
 
     def run(self):
         rospy.spin()
